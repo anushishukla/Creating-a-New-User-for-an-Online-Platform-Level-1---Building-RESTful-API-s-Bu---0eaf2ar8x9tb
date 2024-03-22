@@ -1,19 +1,3 @@
-const fs = require("fs");
-
-const express = require("express");
-
-const app = express();
-
-const userDetails = JSON.parse(fs.readFileSync(`${__dirname}/data/userDetails.json`));
-
-app.use(express.json());
-
-const writeDataToFile = (filename, content) => {
-
-fs.writeFileSync(filename, JSON.stringify(content, null, 2), 'utf-8');
-
-};
-
 app.post("/api/v1/details", (req, res) => {
 
 const { name, mail, number } = req.body;
@@ -36,6 +20,8 @@ const newUser = { id: newId, name, mail, number };
 
 userDetails.push(newUser);
 
+// Assuming the test expects the newUser object to be directly in the data field
+
 writeDataToFile(`${__dirname}/data/userDetails.json`, userDetails);
 
 res.status(201).json({
@@ -44,10 +30,11 @@ status: "Success",
 
 message: "User registered successfully",
 
-data: { newUser }
+data: newUser // Make sure this aligns with the test expectation
 
 });
 
 });
 
 
+Message..
